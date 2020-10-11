@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { newMessage } from "../state/actions";
+import { useAppContext } from "./hooks";
 
-const PublishMessage = ({ dispatcher }) => {
+const PublishMessage = () => {
   const [text, setText] = useState("");
+  const { dispatch } = useAppContext();
   const updateText = (event) => {
     setText(event.target.value);
   };
 
   const publishMessage = () => {
-    dispatcher(newMessage(text));
+    dispatch(newMessage(text));
   };
 
   const onHandleKeyPress = (event) => {
@@ -18,7 +20,12 @@ const PublishMessage = ({ dispatcher }) => {
   return (
     <div>
       <h3>Say Something?</h3>
-      <input value={text} onChange={updateText} type="text" onKeyPress={onHandleKeyPress}/>
+      <input
+        value={text}
+        onChange={updateText}
+        type="text"
+        onKeyPress={onHandleKeyPress}
+      />
       <button onClick={publishMessage}>Publish!</button>
     </div>
   );
